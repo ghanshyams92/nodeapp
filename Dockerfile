@@ -1,4 +1,4 @@
-##Dockerfile for NodeApp###
+##Dockerfile for NodeAppLICATION###
 FROM node:8
 USER root
 EXPOSE 3000

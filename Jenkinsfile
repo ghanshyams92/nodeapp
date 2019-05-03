@@ -6,7 +6,16 @@ node {
 
         checkout scm
     }
-
+    stage('Dockerfile Lint'){
+        def lintResult = sh returnStdout: true, script: 'docker run --rm -i lukasmartinelli/hadolint < Dockerfile'
+        if (lintResult.trim() == '') {
+            println 'Lint finished with no errors'
+        } else {
+            println 'Error found in Lint'
+            println "${lintResult}"
+            currentBuild.result = 'UNSTABLE'
+        }
+    } // end stage
     stage('Build image') {
         /* This builds the actual image; synonymous to
          * docker build on the command line */

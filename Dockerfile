@@ -1,4 +1,5 @@
 ##Dockerfile for NodeAppLICATION###
+##Alin
 FROM node:8
 USER root
 EXPOSE 3000

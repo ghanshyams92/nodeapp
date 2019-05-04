@@ -1,30 +1,30 @@
 pipeline {
 environment {
 registry = “gsaini05/nodeapp”
-registryCredential = ‘dockerhub_1’
-dockerImage = ‘’}
+registryCredential = 'dockerhub_1'
+dockerImage = ''}
 agent any
 stages {
-stage(‘Cloning Git’) {
+stage('Cloning Git') {
  steps {
  git 'https://github.com/ghanshyams92/nodeapp.git'
  }}
-stage(‘Building image’) {
+stage('Building image') {
  steps{
  script {
  dockerImage = docker.build registry + “:$BUILD_NUMBER”}}}
-stage(‘Container Security Scan’) {
+stage('Container Security Scan') {
  steps {
- sh ‘echo “docker.io/tahmed11/demo `pwd`/Dockerfile” > anchore_images’
- anchore name: ‘anchore_images’}}
-stage(‘Deploy Image’) {
+ sh 'echo “docker.io/tahmed11/demo `pwd`/Dockerfile” > anchore_images'
+ anchore name: 'anchore_images'}}
+stage('Deploy Image') {
  steps{
  script {
- docker.withRegistry( ‘’, registryCredential ) {
+ docker.withRegistry( '', registryCredential ) {
  dockerImage.push()
  }}}}
- stage(‘Cleanup’) {
+ stage('Cleanup') {
  steps {
- sh’’’
+ sh'''
  for i in `cat anchore_images | awk ‘{print $1}’`;do docker rmi $i; done
- ‘’’}}}}
+ '''}}}}

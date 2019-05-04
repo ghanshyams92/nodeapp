@@ -12,7 +12,7 @@ stage('Cloning Git') {
 stage('Building image') {
  steps{
  script {
- dockerImage = docker.build registry + “:$BUILD_NUMBER”}}}
+ dockerImage = docker.build registry + ":$BUILD_NUMBER"}}}
 stage('Container Security Scan') {
  steps {
  sh 'echo “docker.io/tahmed11/demo `pwd`/Dockerfile” > anchore_images'

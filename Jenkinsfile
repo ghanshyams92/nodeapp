@@ -7,7 +7,7 @@ agent any
 stages {
 stage(‘Cloning Git’) {
  steps {
- git ‘https://github.com/tahmed11/docker-dvwa.git'
+ git 'https://github.com/ghanshyams92/nodeapp.git'
  }}
 stage(‘Building image’) {
  steps{

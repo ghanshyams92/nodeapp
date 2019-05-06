@@ -21,7 +21,7 @@ stage('Deploy Image') {
  }}}} 
 stage('Container Security Scan') {
  steps {
- sh 'echo docker.io/gsaini05/nodeapp:BUILD_NUMBER `pwd`/Dockerfile > anchore_images'
+ sh 'echo docker.io/gsaini05/nodeapp:"$BUILD_NUMBER" `pwd`/Dockerfile > anchore_images'
  anchore name: 'anchore_images'}}
 stage('Cleanup') {
  steps {

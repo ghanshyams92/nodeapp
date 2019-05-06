@@ -15,7 +15,7 @@ stage('Building image') {
  dockerImage = docker.build registry + ":$BUILD_NUMBER"}}}
 stage('Container Security Scan') {
  steps {
- sh 'echo "docker.io/gsaini05/nodeapp" `pwd`/Dockerfile > anchore_images'
+ sh 'echo docker.io/gsaini05/nodeapp:0.11 `pwd`/Dockerfile > anchore_images'
  anchore name: 'anchore_images'}}
 stage('Deploy Image') {
  steps{

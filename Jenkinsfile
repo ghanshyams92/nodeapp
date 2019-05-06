@@ -12,9 +12,10 @@ stages {
   }}}
  stage('Dockerfile Lint') {
   steps {
+  script {
   sh 'sudo docker run --rm -i  hadolint/hadolint < Dockerfile'
  }
-}
+  }}
  stage('Building image') {
   steps{
   script {

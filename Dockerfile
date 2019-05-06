@@ -4,7 +4,7 @@ LABEL Maintainer=dstadmin@in.ibm.com Name=node Version=8
 USER root
 EXPOSE 3000
 WORKDIR /app
-ADD package.json index.js ./
+COPY package.json index.js ./
 RUN npm install
-#USER node
+USER node
 CMD ["npm", "start"]

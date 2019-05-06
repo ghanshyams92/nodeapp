@@ -10,8 +10,10 @@ stage('Cloning Git') {
  git 'https://github.com/ghanshyams92/nodeapp.git'
  }}
 stage('Dockerfile Lint') {
+ steps {
  sh 'sudo docker run --rm -i  hadolint/hadolint < Dockerfile'
  }
+}
 stage('Building image') {
  steps{
  script {

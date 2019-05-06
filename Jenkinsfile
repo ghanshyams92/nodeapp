@@ -13,9 +13,14 @@ stage('Building image') {
  steps{
  script {
  dockerImage = docker.build registry + ":$BUILD_NUMBER"}}}
+ stage('Push image') {
+     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_1') {
+         app.push("${env.BUILD_NUMBER}")
+         app.push("latest")
+        }
 stage('Container Security Scan') {
  steps {
- sh 'echo docker.io/gsaini05/nodeapp:0.11 `pwd`/Dockerfile > anchore_images'
+ sh 'echo docker.io/gsaini05/nodeapp:BUILD_NUMBER `pwd`/Dockerfile > anchore_images'
  anchore name: 'anchore_images'}}
 stage('Deploy Image') {
  steps{

@@ -7,8 +7,9 @@ agent any
 stages {
  stage('Cloning Git') {
   steps {
+  script {
   git 'https://github.com/ghanshyams92/nodeapp.git'
- }}
+  }}}
  stage('Dockerfile Lint') {
   steps {
   sh 'sudo docker run --rm -i  hadolint/hadolint < Dockerfile'

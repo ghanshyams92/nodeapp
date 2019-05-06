@@ -9,16 +9,16 @@ stage('Cloning Git') {
  steps {
  git 'https://github.com/ghanshyams92/nodeapp.git'
  }}
-    stage('Dockerfile Lint'){
-        def lintResult = sh returnStdout: true, script: 'sudo docker run --rm -i  hadolint/hadolint < Dockerfile'
-        if (lintResult.trim() == '') {
-            println 'Lint finished with no errors'
-        } else {
-            println 'Error found in Lint'
-            println "${lintResult}"
-            currentBuild.result = 'UNSTABLE'
-        }
-    }
+stage('Dockerfile Lint'){
+ def lintResult = sh returnStdout: true, script: 'sudo docker run --rm -i  hadolint/hadolint < Dockerfile'
+ if (lintResult.trim() == '') {
+    println 'Lint finished with no errors'
+ } else {
+    println 'Error found in Lint'
+    println "${lintResult}"
+    currentBuild.result = 'UNSTABLE'
+ }
+}
 stage('Building image') {
  steps{
  script {

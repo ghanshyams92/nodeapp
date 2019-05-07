@@ -1,4 +1,4 @@
-##Dockerfile for NodeAppLICATION###
+##Dockerfile for Node app###
 FROM node:8
 LABEL Maintainer=dstadmin@in.ibm.com Name=node Version=8
 USER root

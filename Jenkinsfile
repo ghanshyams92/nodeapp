@@ -25,6 +25,12 @@ stages {
   docker.withRegistry( '', registryCredential ) {
   dockerImage.push()
  }}}} 
+ stage('Mocha Unit Test') {
+  steps {
+  script {
+  sh 'sudo npm test'
+ }
+  }}
  stage('Container Security Scan') {
   steps {
   sh 'echo docker.io/gsaini05/nodeapp:"$BUILD_NUMBER" `pwd`/Dockerfile > anchore_images'

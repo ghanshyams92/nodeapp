@@ -1,5 +1,5 @@
 #Dockerfile for Node app###
-FROM node:8
+FROM node:latest
 LABEL Maintainer=dstadmin@in.ibm.com Name=node Version=8
 USER root
 EXPOSE 3000

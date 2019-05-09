@@ -1,5 +1,5 @@
 #Dockerfile for Node app###
-FROM node:current-alpine
+FROM node:12.2.0-alpine
 LABEL Maintainer=dstadmin@in.ibm.com Name=node Version=8
 USER root
 EXPOSE 3000

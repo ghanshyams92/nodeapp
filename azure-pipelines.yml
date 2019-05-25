@@ -51,14 +51,17 @@ stages:
   jobs:
   - job:
     steps:
-    - bash: |
-        ANCHORE_CLI_URL=http://104.211.229.154:8228/v1
-        ANCHORE_CLI_USER=admin
-        ANCHORE_CLI_PASS=foobar
-        export ANCHORE_CLI_URL
-        export ANCHORE_CLI_USER
-        export ANCHORE_CLI_PASS
-        sudo pip install anchorecli 
-        anchore-cli image add docker.io/node:stretch-slim
-        anchore-cli image list
-        anchore-cli image vuln docker.io/node:stretch-slim os
+    - task: SSH@0
+      inputs:
+        sshEndpoint: 'myub18sh'
+        runOptions: 'commands'
+        commands: 'ANCHORE_CLI_URL=http://104.211.229.154:8228/v1
+                  ANCHORE_CLI_USER=admin
+                  ANCHORE_CLI_PASS=foobar
+                  export ANCHORE_CLI_URL
+                  export ANCHORE_CLI_USER
+                  export ANCHORE_CLI_PASS
+                  sudo pip install anchorecli 
+                  anchore-cli image add docker.io/node:stretch-slim
+                  anchore-cli image list
+                  anchore-cli image vuln docker.io/node:stretch-slim os'

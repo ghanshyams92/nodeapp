@@ -6,4 +6,5 @@ EXPOSE 3000
 WORKDIR /app
 COPY package.json app.js ./
 RUN npm install
+USER node
 CMD ["npm", "start"]

@@ -18,7 +18,13 @@ variables:
   
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-
+stages:
+- stage: DockerfileLint
+  displayName: Lint by Hadolint
+  jobs:
+  - job: RunsInContainer
+    container: # inline container specification
+      image: hadolint/hadolint:latest
 stages:
 - stage: Build
   displayName: Build and push stage

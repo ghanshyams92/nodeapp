@@ -57,8 +57,7 @@ stages:
         export ANCHORE_CLI_URL
         export ANCHORE_CLI_USER
         export ANCHORE_CLI_PASS
-        sudo pip install --upgrade pip
-        sudo pip install anchorecli 
+        pip install anchorecli 
         anchore-cli image add docker.io/node:stretch-slim
         anchore-cli image list
         anchore-cli image vuln docker.io/node:stretch-slim os

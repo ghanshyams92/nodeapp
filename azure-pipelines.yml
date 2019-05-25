@@ -25,7 +25,7 @@ stages:
   - job: RunsInContainer
     container: # inline container specification
       image: hadolint/hadolint:latest
-      option: --rm  --interactive  **/Dockerfile
+      option: --rm  --interactive 
 - stage: Build
   displayName: Build and push stage
   jobs:  

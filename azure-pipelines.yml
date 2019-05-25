@@ -55,4 +55,4 @@ stages:
       inputs:
         sshEndpoint: 'myub18sh'
         runOptions: 'commands'
-        commands: 'ANCHORE_CLI_URL=http://104.211.229.154:8228/v1 ; ANCHORE_CLI_USER=admin ; ANCHORE_CLI_PASS=foobar ; export ANCHORE_CLI_URL ; export ANCHORE_CLI_USER ; export ANCHORE_CLI_PASS ; sudo -H pip install anchorecli ;  anchore-cli image add docker.io/node:current-slim ;  anchore-cli image vuln docker.io/node:current-slim os'
+        commands: ' sudo -H pip install anchorecli ; ANCHORE_CLI_URL=http://104.211.229.154:8228/v1 ; ANCHORE_CLI_USER=admin ; ANCHORE_CLI_PASS=foobar ; export ANCHORE_CLI_URL ; export ANCHORE_CLI_USER ; export ANCHORE_CLI_PASS ; anchore-cli image add docker.io/node:current-slim ;  anchore-cli image vuln docker.io/node:current-slim os'

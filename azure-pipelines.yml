@@ -15,6 +15,9 @@ variables:
   containerRegistry: 'containercicdregistry.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
+  ANCHORE_CLI_URL 'http://104.211.229.154:8228/v1'
+  ANCHORE_CLI_USER 'admin'
+  ANCHORE_CLI_PASS 'foobar'
   
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -25,9 +28,6 @@ stages:
   - job:
     steps:
     - bash: docker run --rm -i  hadolint/hadolint < $(dockerfilePath)
-##    container: # inline container specification
-##      image: hadolint/hadolint:latest
-##      command --rm  --interactive 
 - stage: Build
   displayName: Build and push stage
   jobs:  
@@ -45,3 +45,14 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+ - stage: Anchore scan
+   displayName:  Anchore Engine Security Scan
+   jobs:
+   - job:
+     steps:
+     - bash: |
+         apt-get install python-pip
+         pip install anchorecli 
+         anchore-cli image add docker.io/node:stretch-slim
+         anchore-cli image list
+         anchore-cli image vuln docker.io/node:stretch-slim os

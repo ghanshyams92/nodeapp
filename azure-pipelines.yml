@@ -23,9 +23,10 @@ stages:
   displayName: Lint by Hadolint
   jobs:
   - job: RunsInContainer
-    container: # inline container specification
-      image: hadolint/hadolint:latest
-      option: --rm  --interactive 
+    command: docker run --rm -i  hadolint/hadolint < $(dockerfilePath)
+##    container: # inline container specification
+##      image: hadolint/hadolint:latest
+##      command --rm  --interactive 
 - stage: Build
   displayName: Build and push stage
   jobs:  

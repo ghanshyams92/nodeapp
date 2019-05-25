@@ -45,7 +45,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-- stage: Anchore scan
+- stage: AnchoreScan
   displayName:  Anchore Engine Security Scan
   jobs:
   - job:

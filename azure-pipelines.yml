@@ -22,8 +22,9 @@ stages:
 - stage: DockerfileLint
   displayName: Lint by Hadolint
   jobs:
-  - job: RunsInContainer
-    command: docker run --rm -i  hadolint/hadolint < $(dockerfilePath)
+  - job:
+    steps:
+    - bash: docker run --rm -i  hadolint/hadolint < $(dockerfilePath)
 ##    container: # inline container specification
 ##      image: hadolint/hadolint:latest
 ##      command --rm  --interactive 

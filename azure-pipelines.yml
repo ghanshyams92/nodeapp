@@ -25,7 +25,6 @@ stages:
   - job: RunsInContainer
     container: # inline container specification
       image: hadolint/hadolint:latest
-stages:
 - stage: Build
   displayName: Build and push stage
   jobs:  

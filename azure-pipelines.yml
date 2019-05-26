@@ -55,4 +55,4 @@ stages:
       inputs:
         sshEndpoint: 'myub18sh'
         runOptions: 'commands'
-        commands: ' sudo -H pip install anchorecli ; env ; anchore-cli --u admin --p foobar image add docker.io/node:12.2.0-alpine ; anchore-cli --u admin --p foobar  image wait docker.io/node:12.2.0-alpine ; anchore-cli --u admin --p foobar image vuln docker.io/node:12.2.0-alpine os ; anchore-cli --u admin --p foobar evaluate check docker.io/node:12.2.0-alpine '
+        commands: ' sudo -H pip install anchorecli ; env ; anchore-cli --u admin --p foobar image add $(containerRegistry)/$(imageRepository):$(tag) ; anchore-cli --u admin --p foobar  image wait $(containerRegistry)/$(imageRepository):$(tag) ; anchore-cli --u admin --p foobar image vuln $(containerRegistry)/$(imageRepository):$(tag) os ; anchore-cli --u admin --p foobar evaluate check $(containerRegistry)/$(imageRepository):$(tag) '

@@ -1,5 +1,4 @@
 # Docker
-
 # Build and push an image to Azure Container Registry
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
@@ -24,7 +23,7 @@ variables:
   vmImageName: 'ubuntu-latest'
 stages:
 - stage: DockerfileLint
-  displayName: Lint by Hadolint
+  displayName: Dockerfile Linting
   jobs:
   - job:
     steps:
@@ -47,7 +46,7 @@ stages:
         tags: |
           $(tag)
 - stage: AnchoreScan
-  displayName:  Anchore Scan
+  displayName: Vulnerability Scanning by AE
   jobs:
   - job:
     steps:
@@ -56,3 +55,13 @@ stages:
         sshEndpoint: 'myub18sh'
         runOptions: 'commands'
         commands: ' sudo -H pip install anchorecli ; env ; anchore-cli --u $(aeuser) --p $(aepass) image add $(containerRegistry)/$(imageRepository):$(tag) ; anchore-cli --u $(aeuser) --p $(aepass)  image wait $(containerRegistry)/$(imageRepository):$(tag) ; anchore-cli --u $(aeuser) --p $(aepass) image vuln $(containerRegistry)/$(imageRepository):$(tag) os ; anchore-cli --u $(aeuser) --p $(aepass) evaluate check $(containerRegistry)/$(imageRepository):$(tag) '
+- stage: Notary
+  displayName:  Notary
+  jobs:
+  - job:
+    steps:
+    - task: SSH@0
+      inputs:
+        sshEndpoint: 'myub18sh'
+        runOptions: 'commands'
+        commands: 'export DOCKER_CONTENT_TRUST_SERVER=https://notary-server.example.local:4443'

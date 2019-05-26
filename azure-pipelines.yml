@@ -55,4 +55,4 @@ stages:
       inputs:
         sshEndpoint: 'myub18sh'
         runOptions: 'commands'
-        commands: ' sudo -H pip install anchorecli ; env ; anchore-cli image add docker.io/node:current-slim ; anchore-cli image add docker.io/node:current-slim ; anchore-cli image vuln docker.io/node:current-slim os'
+        commands: ' sudo -H pip install anchorecli ; env ; anchore-cli image add docker.io/node:current-slim ; anchore-cli --u admin --p foobar  image add docker.io/node:current-slim ; anchore-cli image vuln docker.io/node:current-slim os'

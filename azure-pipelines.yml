@@ -64,4 +64,4 @@ stages:
       inputs:
         sshEndpoint: 'myub18sh'
         runOptions: 'commands'
-        commands: 'source /home/gsaini05/var_on.sh ; docker tag $(containerRegistry)/$(imageRepository):$(tag) registry.example.local:5000/$(imageRepository)_signed:$(tag) ; docker -D push registry.example.local:5000/$(imageRepository)_signed:$(tag); source /home/gsaini05/var_off.sh'
+        commands: 'source ./var_on.sh ; env ; docker tag $(containerRegistry)/$(imageRepository):$(tag) registry.example.local:5000/$(imageRepository)_signed:$(tag) ; docker -D push registry.example.local:5000/$(imageRepository)_signed:$(tag); source ./var_off.sh ; env ;'

@@ -18,6 +18,7 @@ variables:
   aeurl: 'http://104.211.229.154:8228/v1'
   aeuser: 'admin'
   aepass: 'foobar'
+  noturl: ''
   
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -59,9 +60,15 @@ stages:
   displayName:  Notary
   jobs:
   - job:
+  variables:
+    job_variable2: value2
+    DOCKER_CONTENT_TRUST_SERVER: https://notary-server.example.local:4443
+    DOCKER_CONTENT_TRUST: 1
+    DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE: Hellotest1*
+    DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE: Hellotest1*
     steps:
     - task: SSH@0
       inputs:
         sshEndpoint: 'myub18sh'
         runOptions: 'commands'
-        commands: 'source ./var_on.sh ; env ; docker tag $(containerRegistry)/$(imageRepository):$(tag) registry.example.local:5000/$(imageRepository)_signed:$(tag) ; docker -D push registry.example.local:5000/$(imageRepository)_signed:$(tag); source ./var_off.sh ; env ;'
+        commands: 'env ; docker tag $(containerRegistry)/$(imageRepository):$(tag) registry.example.local:5000/$(imageRepository)_signed:$(tag) ; docker -D push registry.example.local:5000/$(imageRepository)_signed:$(tag);  env ;'

@@ -71,4 +71,4 @@ stages:
       inputs:
         sshEndpoint: 'myub18sh'
         runOptions: 'commands'
-        commands: 'env ; docker tag $(containerRegistry)/$(imageRepository):$(tag) registry.example.local:5000/$(imageRepository)_signed:$(tag) ; docker -D push registry.example.local:5000/$(imageRepository)_signed:$(tag);  env ;'
+        commands: 'export $(DOCKER_CONTENT_TRUST_SERVER) ;  export $(DOCKER_CONTENT_TRUST) ; export $(DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE) ; export (DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE) ;   env ; docker tag $(containerRegistry)/$(imageRepository):$(tag) registry.example.local:5000/$(imageRepository)_signed:$(tag) ; docker -D push registry.example.local:5000/$(imageRepository)_signed:$(tag);  env ;'

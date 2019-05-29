@@ -64,4 +64,4 @@ stages:
       inputs:
         sshEndpoint: 'myub18sh'
         runOptions: 'commands'
-        commands: 'sudo su - gsaini05 ; $(containerRegistry)/$(imageRepository):$(tag) registry.example.local:5000/$(imageRepository)_signed:$(tag) ; docker -D push registry.example.local:5000/$(imageRepository)_signed:$(tag); unset DOCKER_CONTENT_TRUST_SERVER ; unset DOCKER_CONTENT_TRUST'
+        commands: 'sudo su - gsaini05 ; docker tag $(containerRegistry)/$(imageRepository):$(tag) registry.example.local:5000/$(imageRepository)_signed:$(tag) ; docker -D push registry.example.local:5000/$(imageRepository)_signed:$(tag);'

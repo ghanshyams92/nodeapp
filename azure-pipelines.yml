@@ -54,7 +54,7 @@ stages:
       inputs:
         sshEndpoint: 'myub18sh'
         runOptions: 'commands'
-        commands: ' sudo -H pip install anchorecli ; env ; anchore-cli --u $(aeuser) --p $(aepass) image add $(containerRegistry)/$(imageRepository):$(tag) ; anchore-cli --u $(aeuser) --p $(aepass)  image wait $(containerRegistry)/$(imageRepository):$(tag) ; anchore-cli --u $(aeuser) --p $(aepass) image vuln $(containerRegistry)/$(imageRepository):$(tag) os ; anchore-cli --u $(aeuser) --p $(aepass) evaluate check $(containerRegistry)/$(imageRepository):$(tag) '
+        commands: ' sudo -H pip install anchorecli ; env ; docker pull $(containerRegistry)/$(imageRepository):$(tag); anchore-cli --u $(aeuser) --p $(aepass) image add $(containerRegistry)/$(imageRepository):$(tag) ; anchore-cli --u $(aeuser) --p $(aepass)  image wait $(containerRegistry)/$(imageRepository):$(tag) ; anchore-cli --u $(aeuser) --p $(aepass) image vuln $(containerRegistry)/$(imageRepository):$(tag) os ; anchore-cli --u $(aeuser) --p $(aepass) evaluate check $(containerRegistry)/$(imageRepository):$(tag) '
 - stage: Notary
   displayName:  Notary
   jobs:

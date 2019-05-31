@@ -29,12 +29,6 @@ stages:
   - job:
     steps:
     - bash: docker run --rm -i  hadolint/hadolint < $(dockerfilePath)
-- stage: Test
-  displayName: Test
-  jobs:
-  - job: Test1
-    steps:
-    - bash: sudo apt-get install npm ; sudo npm install -g mocha ; sudo npm install request --save ; sudo npm install express ; npm test ;
 - stage: Build
   displayName: Build and push stage
   jobs:  
@@ -52,7 +46,15 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-
+- stage: Test
+  displayName: Test
+  jobs:
+  - job: Test1
+    steps:
+    - bash: sudo apt-get install npm ; sudo npm install -g mocha ; sudo npm install request --save ; sudo npm install express ; npm test ;
+  - job: Test2
+    steps:
+    - bash: docker run -dt --name node_app -p 3000:3000 $(containerRegistry)/$(imageRepository):$(tag); sleep 10 ; curl -I http://localhost:3000 ;  RV=`curl -sL localhost:3000 -w "%{http_code}\\n" -o /dev/null` ; if [[ $RV -eq 200 ]]; then docker rm -f node_app ; fi ;
 - stage: AnchoreScan
   displayName: Vulnerability Scanning by AE
   jobs:

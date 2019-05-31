@@ -49,7 +49,7 @@ stages:
 - stage: Test
   displayName: Test
   jobs:
-  - job: Test 1
+  - job: Test1
     steps:
     - bash: npm install -g mocha ; npm install request --save ; npm install express ; npm test ;
 - stage: AnchoreScan

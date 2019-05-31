@@ -46,6 +46,12 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+- stage: Test
+  displayName: Test
+  jobs:
+  - job: Test 1
+    steps:
+    - bash: npm install -g mocha ; npm install request --save ; npm install express ; npm test ;
 - stage: AnchoreScan
   displayName: Vulnerability Scanning by AE
   jobs:

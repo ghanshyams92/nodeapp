@@ -54,7 +54,7 @@ stages:
     - bash: sudo apt-get install npm ; sudo npm install -g mocha ; sudo npm install request --save ; sudo npm install express ; npm test ;
   - job: Test2
     steps:
-    - bash: docker run -dt --name node_app -p 3000:3000 $(containerRegistry)/$(imageRepository):$(tag); sleep 10 ; curl -I http://localhost:3000 ;  RV=`curl -sL localhost:3000 -w "%{http_code}\\n" -o /dev/null` ; if [[ $RV -eq 200 ]]; then docker rm -f node_app ; fi ;
+    - bash: docker login -u containercicdregistry -p Qk=GkbogPfKk6U7IHiP4CssuPmjFSJTr containercicdregistry.azurecr.io ; docker run -dt --name node_app -p 3000:3000 $(containerRegistry)/$(imageRepository):$(tag); sleep 10 ; curl -I http://localhost:3000 ;  RV=`curl -sL localhost:3000 -w "%{http_code}\\n" -o /dev/null` ; if [[ $RV -eq 200 ]]; then docker rm -f node_app ; fi ;
 - stage: AnchoreScan
   displayName: Vulnerability Scanning by AE
   jobs:

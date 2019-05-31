@@ -29,6 +29,12 @@ stages:
   - job:
     steps:
     - bash: docker run --rm -i  hadolint/hadolint < $(dockerfilePath)
+- stage: Test
+  displayName: Test
+  jobs:
+  - job: Test1
+    steps:
+    - bash: sudo apt-get install npm ; sudo npm install -g mocha ; sudo npm install request --save ; sudo npm install express ; npm test ;
 - stage: Build
   displayName: Build and push stage
   jobs:  
@@ -46,12 +52,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-- stage: Test
-  displayName: Test
-  jobs:
-  - job: Test1
-    steps:
-    - bash: npm install -g mocha ; npm install request --save ; npm install express ; npm test ;
+
 - stage: AnchoreScan
   displayName: Vulnerability Scanning by AE
   jobs:

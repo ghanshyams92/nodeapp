@@ -15,11 +15,20 @@ variables:
   containerRegistry: 'containercicdregistry.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
+  aeurl: 'http://104.211.229.154:8228/v1'
+  aeuser: 'admin'
+  aepass: 'foobar'
+  noturl: ''
   
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-
 stages:
+- stage: DockerfileLint
+  displayName: Dockerfile Linting
+  jobs:
+  - job:
+    steps:
+    - bash: docker run --rm -i  hadolint/hadolint < $(dockerfilePath)
 - stage: Build
   displayName: Build and push stage
   jobs:  
@@ -37,3 +46,38 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+- stage: Test
+  displayName: Test
+  jobs:
+  - job: Test1
+    steps:
+    - bash: sudo apt-get install npm ; sudo npm install -g mocha ; sudo npm install request --save ; sudo npm install express ; npm test ;
+  - job: Test2
+    steps:
+    - bash: docker login -u containercicdregistry -p Qk=GkbogPfKk6U7IHiP4CssuPmjFSJTr containercicdregistry.azurecr.io ; docker run -dt --name node_app -p 3000:3000 $(containerRegistry)/$(imageRepository):$(tag); sleep 10 ; curl -I http://localhost:3000 ;  RV=`curl -sL localhost:3000 -w "%{http_code}\\n" -o /dev/null` ; if [[ $RV -eq 200 ]]; then docker rm -f node_app ; fi ;
+- stage: AnchoreScan
+  displayName: Vulnerability Scanning by AE
+  jobs:
+  - job:
+    steps:
+    - task: SSH@0
+      inputs:
+        sshEndpoint: 'myub18sh'
+        runOptions: 'commands'
+        commands: ' sudo -H pip install anchorecli ; env ; docker pull $(containerRegistry)/$(imageRepository):$(tag); anchore-cli --u $(aeuser) --p $(aepass) image add $(containerRegistry)/$(imageRepository):$(tag) ; anchore-cli --u $(aeuser) --p $(aepass)  image wait $(containerRegistry)/$(imageRepository):$(tag) ; anchore-cli --u $(aeuser) --p $(aepass) image vuln $(containerRegistry)/$(imageRepository):$(tag) os ; anchore-cli --u $(aeuser) --p $(aepass) evaluate check $(containerRegistry)/$(imageRepository):$(tag) '
+- stage: Notary
+  displayName:  Notary
+  jobs:
+  - job:
+    variables:
+      job_variable2: value2
+      DOCKER_CONTENT_TRUST_SERVER: https://notary-server.example.local:4443
+      DOCKER_CONTENT_TRUST: 1
+      DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE: Hellotest1*
+      DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE: Hellotest1*
+    steps:
+    - task: SSH@0
+      inputs:
+        sshEndpoint: 'myub18sh'
+        runOptions: 'commands'
+        commands: 'export DOCKER_CONTENT_TRUST_SERVER="https://notary-server.example.local:4443" ;  export DOCKER_CONTENT_TRUST="1" ; export DOCKER_CONTENT_TRUST_ROOT_PASSPHRASE="Hellotest1*" ; export DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE="Hellotest1*" ;  env ; docker tag $(containerRegistry)/$(imageRepository):$(tag) registry.example.local:5000/$(imageRepository)_signed:$(tag) ; docker -D push registry.example.local:5000/$(imageRepository)_signed:$(tag);  env ;'
